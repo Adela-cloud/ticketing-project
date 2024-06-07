@@ -1,15 +1,11 @@
 package com.cydeo.controller;
 
 import com.cydeo.dto.UserDTO;
-import com.cydeo.entity.User;
 import com.cydeo.service.RoleService;
 import com.cydeo.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/user")
@@ -31,10 +27,30 @@ public class UserController {
     }
 
     @PostMapping("/create")
-    public String insertUser(@ModelAttribute("user") UserDTO user ){
+    public String insertUser(@ModelAttribute("user") UserDTO user){
         userService.save(user);
-
         return("redirect:/user/create");
+    }
+
+    @GetMapping("/update/{username}")//this need to be same with path variable param. we will clarify the username in the html page
+    public String editUser(@PathVariable("username") String userId, Model model){
+        model.addAttribute("user",userService.findById(userId));//form of the existing user
+        model.addAttribute("roles", roleService.findAll());
+        model.addAttribute("users", userService.findAll());
+
+        return("/user/update");
+    }
+
+    @PostMapping("/update")
+    public String updateUser(@ModelAttribute("user")  UserDTO user){
+        userService.update(user);
+        return "redirect:/user/create";
+    }
+
+    @GetMapping("/delete/{id}")
+    public String deleteUser(@PathVariable("id") String username){
+        userService.deleteById(username);
+        return "redirect:/user/create";
     }
 
 
