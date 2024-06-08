@@ -7,6 +7,8 @@ import com.cydeo.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
@@ -30,4 +32,11 @@ public class TaskController {
         model.addAttribute("employees", userService.findEmployees());
         return "/task/create";
     }
+
+    @PostMapping("/create")
+    public String saveTask(@ModelAttribute("task") TaskDTO task){
+        taskService.save(task);
+        return "redirect:/task/create";
+    }
+
 }
