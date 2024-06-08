@@ -5,6 +5,7 @@ import com.cydeo.enums.Status;
 import com.cydeo.service.TaskService;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -13,6 +14,9 @@ public class TaskServiceImpl extends AbstractMapService<TaskDTO, Long> implement
     public TaskDTO save(TaskDTO task) {
         if(task.getTaskStatus()==null){
             task.setTaskStatus(Status.OPEN);
+        }
+        if(task.getAssignedDate()==null){
+            task.setAssignedDate(LocalDate.now());
         }
 
         return super.save(task.getId(), task);
