@@ -79,6 +79,14 @@ public class ProjectController {
         return "redirect:/project/create";
     }
 
+    @GetMapping("/manager/project-status")
+    public String getProjectByManager(Model model){
+        UserDTO manager= userService.findById("john@cydeo.com");//we hard code this part now, because there is no security yet. when there is security, only the manager who log in to the system, can see their own projects
+        // projectService.findAll(); -> these list of projects already saved in the map, does not include the new fields for this page
+        List<ProjectDTO>  projects= projectService.getCountedListOfProjectDTO(manager);
+        model.addAttribute("projects", projects);
+        return("/manager/project-status");
+    }
 
 
 
