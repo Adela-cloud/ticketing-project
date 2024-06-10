@@ -92,8 +92,11 @@ public class TaskController {
         return"/task/status-update";
     }
 
-//    @PostMapping("/employee/edit/{id}")
-//    public String updateraskT
+    @PostMapping("/employee/update/{id}")
+    public String employeeUpdateTask( TaskDTO task){//in post mapping, no need for pathVariable when {id} and task object field is same
+        taskService.updateStatus(task);
+        return "redirect:/task/employee/pending-tasks";
+    }
 
 
 
